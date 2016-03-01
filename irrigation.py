@@ -1,7 +1,7 @@
-# import Rpi.GPIO as GPIO
+
 import time
 import os
-# import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import time
 import pandas as pd
 
@@ -17,10 +17,10 @@ durations = []
 on = []
 off = []
 
-#
-# #set GPIO mode
-# GPIO.setmode(GPIO.BOARD)
-# gpio_ports=[11,12,13,15,16,18,22]
+
+#set GPIO mode
+GPIO.setmode(GPIO.BOARD)
+gpio_ports=[11,12,13,15,16,18,22]
 #
 # print(time.time())
 # for i in mylist:
@@ -79,12 +79,15 @@ def Main():
 
     now = (int(time.strftime("%H",  time.localtime(time.time())).split(":")[0])*60) + int(time.strftime("%M",  time.localtime(time.time())).split(":")[0])
 
-    schedule.reset_index(inplace = True)
+    schedule.reset_index(inplace=True)
     for z in schedule.index:
-        if now >= schedule.at[z,'on'] and now < schedule.at[z,'off'] :
-            print(schedule.at[z,'zone'], "ON")
+        if now >= schedule.at[z, 'on'] and now < schedule.at[z,'off'] :
+            print(schedule.at[z, 'zone'], "ON")
+            GPIO.setup(schedule.at[z, 'port'], GPIO.OUT)
+            GPIO.output(schedule.at[z, 'port'], False)
         else:
             print(schedule.at[z,'zone'], "OFF")
+            GPIO.output(schedule.at[z, 'port'], True)
 
     print(now, str(int(now/60)) + "h" + str(now % 60))
 
