@@ -1,5 +1,5 @@
 zone,start,duration
 zone1,20:00,60
-zone2,13:00,10
+zone2,14:00,20
 zone3,13:05,60
 zone1,21:30,30
